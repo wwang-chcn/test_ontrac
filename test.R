@@ -21,5 +21,6 @@ Giotto::runONTraCV1(ONTraC_input = ONTraC_input,
             purity_loss_weight = 300.0,
             regularization_loss_weight = 0.3,
             beta = 0.03,
+            epochs = 200L,
             python_path = 'giotto_env')
 
