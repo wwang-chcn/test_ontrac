@@ -2,7 +2,7 @@ giotto_obj <- Giotto::loadGiotto('data/gobject/')
 
 ONTraC_input <- Giotto::getONTraCv1Input(gobject = giotto_obj,
                                  cell_type = 'subclass',
-                                 output_path = 'results',
+                                 output_path = './results/ontrac',
                                  spat_unit = 'cell',
                                  feat_type = 'rna',
                                  verbose = TRUE)
