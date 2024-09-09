@@ -1,0 +1,91 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+name: R-CMD-check.yaml
+
+permissions: read-all
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,   r: 'release'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+
+      - name: Install reticulate
+        run: |
+          Rscript -e "install.packages('reticulate')"
+      
+      - name: Create miniconda
+        run: |
+          Rscript -e "reticulate::install_miniconda()"
+          
+      - name: Install Giotto
+        run: |
+          Rscript -e "install.packages('BiocManager')"
+          Rscript -e "install.packages('devtools')"
+          Rscript -e "devtools::install_github('wwang-chcn/Giotto@suite_dev')"
+          Rscript -e "Giotto::installGiottoEnvironment()"
+          Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'scipy')"
+          Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'anndata', pip = TRUE)"
+          Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'ontrac', pip = TRUE)"
+
+      - name: Run ontrac
+        run: |
+          Rscript -e "giotto_obj <- Giotto::loadGiotto('data/gobject/')"
+          Rscript -e "ONTraC_input <- Giotto::getONTraCv1Input(gobject = giotto_obj,
+                                 cell_type = 'subclass',
+                                 output_path = 'results',
+                                 spat_unit = 'cell',
+                                 feat_type = 'rna',
+                                 verbose = TRUE)"
+          Rscript -e "Giotto::runONTraCV1(ONTraC_input = ONTraC_input,
+            dataset = './results/ontrac/ONTraC_dataset_input.csv',
+            preprocessing_dir = './results/ontrac/preprocessing_dir',
+            GNN_dir = './results/ontrac/GNN_dir',
+            NTScore_dir = './results/ontrac/NTScore_dir',
+            n_neighbors = 50L,
+            n_local = 20L,
+            device = 'cpu',
+            seed = 42L,
+            k = 6L,
+            modularity_loss_weight = 0.3,
+            purity_loss_weight = 300.0,
+            regularization_loss_weight = 0.3,
+            beta = 0.03,
+            python_path = 'giotto_env')"
+
+
