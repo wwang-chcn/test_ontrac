@@ -1,4 +1,7 @@
-giotto_obj <- Giotto::loadGiotto('data/gobject/')
+python_path <- 'giotto_env'
+
+giotto_obj <- Giotto::loadGiotto('data/gobject/',
+                                 python_path = python_path)
 
 ONTraC_input <- Giotto::getONTraCv1Input(gobject = giotto_obj,
                                  cell_type = 'subclass',
@@ -22,5 +25,5 @@ Giotto::runONTraCV1(ONTraC_input = ONTraC_input,
             regularization_loss_weight = 0.3,
             beta = 0.03,
             epochs = 200L,
-            python_path = 'giotto_env')
+            python_path = python_path)
 
