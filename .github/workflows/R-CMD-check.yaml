@@ -53,6 +53,7 @@ jobs:
         run: |
           Rscript -e "install.packages('BiocManager')"
           Rscript -e "install.packages('pak')"
+          Rscript -e "pak::pkg_install('drieslab/Giotto')"
           Rscript -e "pak::pkg_install('wwang-chcn/Giotto@suite_dev')"
           Rscript -e "Giotto::installGiottoEnvironment()"
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'scipy')"
