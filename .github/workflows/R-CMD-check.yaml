@@ -23,7 +23,6 @@ jobs:
           - {os: macos-latest,   r: 'release'}
           - {os: macos-13, r: 'release'}
           - {os: windows-latest, r: 'release'}
-          - {os: ubuntu-latest,   r: 'devel', http-user-agent: 'release'}
           - {os: ubuntu-latest,   r: 'release'}
 
     env:
@@ -59,8 +58,7 @@ jobs:
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'anndata', pip = TRUE)"
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'ontrac', pip = TRUE)"
 
-      - name: Run ontrac
+      - name: Run ontrac option 2
         run: |
-          Rscript test.R
-
+          Rscript test2.R
 
