@@ -57,7 +57,7 @@ jobs:
           Rscript -e "pak::pkg_install('drieslab/GiottoUtils@dev', dependencies = F)"
           Rscript -e "pak::pkg_install('drieslab/GiottoClass@dev', dependencies = F)"
           Rscript -e "pak::pkg_install('drieslab/GiottoVisuals@dev', dependencies = F)"
-          Rscript -e "pak::pkg_install('thomasp85/ggraph', dependencies = F)"
+          Rscript -e "pak::pkg_install('thomasp85/ggraph')"
           Rscript -e "pak::pkg_install('wwang-chcn/Giotto@suite_dev', dependencies = F)"
           Rscript -e "Giotto::installGiottoEnvironment()"
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'scipy')"
