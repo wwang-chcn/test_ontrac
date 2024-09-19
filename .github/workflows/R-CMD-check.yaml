@@ -53,7 +53,9 @@ jobs:
         run: |
           Rscript -e "install.packages('BiocManager')"
           Rscript -e "install.packages('pak')"
-          Rscript -e "pak::pkg_install('drieslab/Giotto')"
+          Rscript -e "pak::pkg_install('drieslab/GiottoUtils@dev')"
+          Rscript -e "pak::pkg_install('drieslab/GiottoClass@dev')"
+          Rscript -e "pak::pkg_install('drieslab/GiottoVisuals@dev')"
           Rscript -e "pak::pkg_install('wwang-chcn/Giotto@suite_dev')"
           Rscript -e "Giotto::installGiottoEnvironment()"
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'scipy')"
@@ -62,5 +64,5 @@ jobs:
 
       - name: Run ontrac option 2
         run: |
-          Rscript test2.R
+          Rscript test1.R
 
