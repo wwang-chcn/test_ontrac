@@ -69,8 +69,8 @@ jobs:
 
       - name: Conda environment check
         run: |
-          conda env list
-          conda list -n giotto_env
+          Rscript -e "reticulate::conda_list()"
+          Rscript -e "reticulate::py_list_packages(envname='giotto_env')"
 
       - name: Run ontrac option 2
         run: |
