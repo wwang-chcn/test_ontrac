@@ -1,5 +1,7 @@
 python_path <- 'giotto_env'
 
+GiottoClass::set_giotto_python_path(python_path)
+
 giotto_obj <- Giotto::loadGiotto('data/gobject/',
                                  python_path = python_path)
 
