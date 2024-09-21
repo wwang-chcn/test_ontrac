@@ -65,7 +65,7 @@ jobs:
           Rscript -e "Giotto::installGiottoEnvironment()"
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'scipy')"
           Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'anndata', pip = TRUE)"
-          Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = c('git+https://github.com/wwang-chcn/ONTraC.git@v1.0'), pip = TRUE)"
+          Rscript -e "reticulate::conda_install(envname = 'giotto_env', packages = 'ontrac', pip = TRUE)"
 
       - name: Conda environment check
         run: |
